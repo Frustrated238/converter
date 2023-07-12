@@ -13,7 +13,7 @@ export class AppComponent {
   title = 'currency';
   
   readonly ROOT_URL = '/api/p24api/pubinfo?exchange&json&coursid=11';
-  
+
   data: any;
   uahValue: number = 1;
   firstValue: number = 0;
