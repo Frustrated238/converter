@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 
@@ -13,7 +13,7 @@ export class AppComponent {
   title = 'currency';
   
   readonly ROOT_URL = '/api/p24api/pubinfo?exchange&json&coursid=11';
-
+  
   data: any;
   uahValue: number = 1;
   firstValue: number = 0;
@@ -26,12 +26,12 @@ export class AppComponent {
   
 
   firstForm = new FormGroup({
-    firstNumber: new FormControl(),
+    firstNumber: new FormControl(0),
     firstSelector: new FormControl('USD')
   });
 
   secondForm = new FormGroup({
-    secondNumber: new FormControl(),
+    secondNumber: new FormControl(0),
     secondSelector: new FormControl('UAH')
   });
 
@@ -68,19 +68,19 @@ export class AppComponent {
   }
 
   firstInputHandler() {
-    this.inputToBaseUah(String(this.firstForm.value.firstSelector),this.firstForm.value.firstNumber);
+    this.inputToBaseUah(String(this.firstForm.value.firstSelector),Number(this.firstForm.value.firstNumber));
     this.renderSecondValue();
      
   }
   
   secondInputHandler() {
-    this.inputToBaseUah(String(this.secondForm.value.secondSelector),this.secondForm.value.secondNumber);
+    this.inputToBaseUah(String(this.secondForm.value.secondSelector),Number(this.secondForm.value.secondNumber));
     this.renderFirstValue();
   }
 
   renderValue(selector: string, targetNumber: number): number {
     switch(selector) {
-      case('UAH'): targetNumber = +(this.uahValue / this.UAH).toFixed(4);
+      case('UAH'): targetNumber = +this.uahValue.toFixed(4);
         break;
       case('USD'): targetNumber = +(this.uahValue / this.USD).toFixed(4);
         break;
@@ -99,14 +99,4 @@ export class AppComponent {
     let calcValue = this.renderValue(String(this.secondForm.value.secondSelector), this.secondValue);
     this.secondValue = calcValue;
   }
-
-  
-  firstSelectHandler() {
-    this.firstInputHandler();
-  }
-  
-  secondSelectHandler() {
-    this.secondInputHandler();
-  }
-
 }

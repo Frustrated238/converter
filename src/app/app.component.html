@@ -9,8 +9,8 @@
   <section class="wrapper">
     <h2 class="section-heading">Convert your currency</h2>
     <form [formGroup]="firstForm" (input)="firstInputHandler()" >
-      <input id="first-number" type="number" formControlName="firstNumber"  [(ngModel)]="firstValue">
-      <select id="firstSelector" name="firstSelector" formControlName="firstSelector"  (change)="firstSelectHandler()"  required>
+      <input id="first-number" type="number"  formControlName="firstNumber" min="0" [(ngModel)]="firstValue">
+      <select id="firstSelector" name="firstSelector" formControlName="firstSelector"  (change)="firstInputHandler()"  required>
         <option value="USD">USD</option>
         <option value="UAH">UAH</option>
         <option value="EUR">EUR</option>
@@ -18,8 +18,8 @@
     </form>
 
     <form [formGroup]="secondForm" (input)="secondInputHandler()"  >
-      <input id="second-number" type="number"  formControlName="secondNumber"  [(ngModel)]="secondValue">
-      <select id="secondSelector" name="secondSelector" formControlName="secondSelector" (change)="secondSelectHandler()" required>
+      <input id="second-number" type="number"  formControlName="secondNumber" min="0" [(ngModel)]="secondValue">
+      <select id="secondSelector" name="secondSelector" formControlName="secondSelector" (change)="secondInputHandler()" required>
         <option value="UAH">UAH</option>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>

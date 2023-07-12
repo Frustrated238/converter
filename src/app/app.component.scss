@@ -1,7 +1,7 @@
 header {
 	display: grid;
 	grid-template-rows: 50px;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	background-color: rgb(162, 221, 241);
 	padding: 10px;
 	box-shadow: 0px 5px 25px #E8E8E8;
@@ -13,7 +13,6 @@ header {
 }
 
 main {
-	width: 1300px;
 	.exchange-rate {
 		font-size: 22px;
 		font-weight: 500;
@@ -32,7 +31,18 @@ main {
 form {
 	margin-top: 20px;
 	select{
-		width: 60px;
+		width: 70px;
+		font-size: 16px;
+		height: 25px;
 		text-align: center;
+		border: none;
+		background-color: white;	
 	}
+	input {
+		font-size: 16px;
+		height: 25px;
+		border: none;
+		border-bottom: 1px solid rgba(54, 47, 47, 0.696);
+	}
+
 }
