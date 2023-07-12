@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup, Validators} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, } from '@angular/forms';
 
 
 @Component({
@@ -11,19 +10,17 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'currency';
-  
+
   readonly ROOT_URL = '/api/p24api/pubinfo?exchange&json&coursid=11';
-  
+  private intervalId: any;
+
   data: any;
   uahValue: number = 1;
   firstValue: number = 0;
   secondValue: number = 0;
-
   
-  UAH: number = 0;
-  EUR: number = 0;
-  USD: number = 0;
-  
+  eurRate: number = 0;
+  usdRate: number = 0;
 
   firstForm = new FormGroup({
     firstNumber: new FormControl(0),
@@ -41,8 +38,8 @@ export class AppComponent {
   httpRequest():any {
     this.http.get<any[]>(this.ROOT_URL).subscribe(
       (response) => {
-        this.EUR = response[0].buy;
-        this.USD = response[1].buy;   
+        this.eurRate = response[0].buy;
+        this.usdRate = response[1].buy;   
         }, (error) => {
         console.error('Error occured', error)
       }
@@ -54,15 +51,22 @@ export class AppComponent {
       window.onload = () => {
         this.httpRequest();
       };
+      this.intervalId = setInterval(() => {
+        this.httpRequest();
+    }, 10000);
+    
+  }
+  ngOnDestroy() {
+    clearInterval(this.intervalId);
   }
 
   inputToBaseUah(selector: string, inputNum: number) {
     switch(selector) {
       case('UAH'): this.uahValue = inputNum;
         break;
-      case('USD'): this.uahValue = inputNum * this.USD;
+      case('USD'): this.uahValue = inputNum * this.usdRate;
         break;
-      case('EUR'): this.uahValue = inputNum * this.EUR;
+      case('EUR'): this.uahValue = inputNum * this.eurRate;
         break;
     }
   }
@@ -82,9 +86,9 @@ export class AppComponent {
     switch(selector) {
       case('UAH'): targetNumber = +this.uahValue.toFixed(4);
         break;
-      case('USD'): targetNumber = +(this.uahValue / this.USD).toFixed(4);
+      case('USD'): targetNumber = +(this.uahValue / this.usdRate).toFixed(4);
         break;
-      case('EUR'): targetNumber = +(this.uahValue / this.EUR).toFixed(4);
+      case('EUR'): targetNumber = +(this.uahValue / this.eurRate).toFixed(4);
         break;
     }
     return targetNumber;
